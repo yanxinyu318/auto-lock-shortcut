@@ -1,0 +1,25 @@
+name: Sign Shortcut
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sign:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sign shortcut
+        run: |
+          set -e
+          base64 -d "自动锁定切换.shortcut.b64" > "自动锁定切换.shortcut"
+          ls -la "自动锁定切换.shortcut"
+          head -c 8 "自动锁定切换.shortcut"
+          mkdir -p dist
+          shortcuts sign --mode anyone --input "自动锁定切换.shortcut" --output "dist/自动锁定切换.shortcut"
+          ls -la dist/
+          head -c 4 "dist/自动锁定切换.shortcut" | xxd
+      - name: Upload signed shortcut
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-shortcut
+          path: dist/自动锁定切换.shortcut
