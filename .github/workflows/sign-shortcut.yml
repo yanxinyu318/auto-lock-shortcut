@@ -11,7 +11,7 @@ jobs:
       - name: Sign shortcut
         run: |
           set -e
-          base64 -d "自动锁定切换.shortcut.b64" > "自动锁定切换.shortcut"
+          base64 -D -i "自动锁定切换.shortcut.b64" -o "自动锁定切换.shortcut"
           ls -la "自动锁定切换.shortcut"
           head -c 8 "自动锁定切换.shortcut"
           mkdir -p dist
